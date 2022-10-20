@@ -34,7 +34,7 @@ public class User {
     @JoinColumn(name = "idProfile")
     private Profile profile;
 
-    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "users",fetch = FetchType.LAZY,cascade = {CascadeType.ALL})
     private List<Row> row;
 
 }

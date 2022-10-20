@@ -25,5 +25,5 @@ public class Row {
 
     @ManyToOne(fetch= FetchType.EAGER,cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "idUser")
-    private User user;
+    private User users;
 }
