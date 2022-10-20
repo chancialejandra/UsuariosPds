@@ -35,6 +35,6 @@ public class User {
     private Profile profile;
 
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = {CascadeType.ALL})
-    private List<Row> rows;
+    private List<Row> row;
 
 }
