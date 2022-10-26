@@ -1,5 +1,5 @@
 
-package com.co.pds.Taller_1_Usuarios_Profundizacion;
+package com.co.pds.User;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

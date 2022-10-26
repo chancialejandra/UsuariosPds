@@ -1,4 +1,4 @@
-package com.co.pds.Taller_1_Usuarios_Profundizacion;
+package com.co.pds.User;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

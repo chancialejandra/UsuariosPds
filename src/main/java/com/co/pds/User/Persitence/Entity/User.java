@@ -1,4 +1,4 @@
-package com.co.pds.Taller_1_Usuarios_Profundizacion.Persitence.Entity;
+package com.co.pds.User.Persitence.Entity;
 
 import lombok.*;
 
@@ -17,9 +17,11 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+   // @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_user")
-    private int idUser;
+    private Integer idUser;
+
+    private String name;
 
     @Column (name = "date_birth")
     private Date dateBirth;

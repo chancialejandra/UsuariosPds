@@ -1,4 +1,4 @@
-package com.co.pds.Taller_1_Usuarios_Profundizacion.Persitence.Entity;
+package com.co.pds.User.Persitence.Entity;
 
 import lombok.*;
 

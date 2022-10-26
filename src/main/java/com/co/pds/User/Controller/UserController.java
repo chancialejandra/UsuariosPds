@@ -1,16 +1,17 @@
-package com.co.pds.Taller_1_Usuarios_Profundizacion.Controller;
+package com.co.pds.User.Controller;
 
-import com.co.pds.Taller_1_Usuarios_Profundizacion.Dto.Request.UserRequest;
-import com.co.pds.Taller_1_Usuarios_Profundizacion.Service.Interfaces.IUserService;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
+import com.co.pds.User.Dto.Request.PruebaRequest;
+import com.co.pds.User.Dto.Request.UserRequest;
+import com.co.pds.User.Service.Interfaces.IUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Validated
 @RestController
@@ -25,5 +26,12 @@ public class UserController {
         var response = iuserService.newUser(user);
         return ResponseEntity.status(response.status).body(response);
     }
+
+    @PostMapping("/prueba")
+    public ResponseEntity prueba(@RequestBody PruebaRequest pruebaRequest){
+        return ResponseEntity.status(200).body(pruebaRequest);
+    }
+
+
 
 }
