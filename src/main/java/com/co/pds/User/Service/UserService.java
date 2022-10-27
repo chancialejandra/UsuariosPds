@@ -106,9 +106,9 @@ public class UserService implements IUserService {
 
     @Override
     public Boolean existingUser(Integer idUser) {
-        boolean prueba = iUserRepository.existsById(idUser);
-        return prueba;
+        return iUserRepository.existsById(idUser);
     }
+
     @Override
     public MessageResponse newUser(UserRequest userRequest) {
 
@@ -116,7 +116,7 @@ public class UserService implements IUserService {
         MessageResponse responseMessage = null;
 
         try {
-            if( true){
+            if(!existingUser(user.getIdUser())){
                 int[] egeUser = (ege(user.getDateBirth()));
                 if(egeUser[0] == 29 && egeUser[1] == 11 && egeUser[2] == -1) {
                     return MessageResponse.builder()
@@ -138,13 +138,13 @@ public class UserService implements IUserService {
             }else {
                 iUserRepository.save(user);
                 responseMessage = MessageResponse.builder()
-                        .message("Registro con exito")
+                        .message("Registration successful")
                         .status(HttpStatus.OK)
                         .build();
                 return responseMessage;
             }
         }catch(Exception ex){
-            System.out.println("Error guardando");
+            System.out.println("Error saving");
         }
         return responseMessage;
     }
