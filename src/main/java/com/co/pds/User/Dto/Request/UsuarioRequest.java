@@ -12,16 +12,15 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class UserRequest {
+public class UsuarioRequest {
 
-    private Integer idUser;
+    private String nombre;
 
-    private String name;
+    private String numeroIdentificacion;
 
-   // @NotNull(message = "The date of birth cannot be empty")
-    private Date dateBirth;
+    private Date fechaNacimiento;
 
-    private boolean condition;
+    private boolean condicion;
 }
 
 

@@ -1,10 +1,10 @@
 package com.co.pds.User.Service;
 
-import com.co.pds.User.Dto.Request.UserRequest;
+import com.co.pds.User.Dto.Request.UsuarioRequest;
 import com.co.pds.User.Dto.Response.MessageResponse;
-import com.co.pds.User.Persitence.Entity.User;
-import com.co.pds.User.Persitence.Repository.IUserRepository;
-import com.co.pds.User.Service.Interfaces.IUserService;
+import com.co.pds.User.Persitence.Entity.Usuario;
+import com.co.pds.User.Persitence.Repository.IUsuarioRepository;
+import com.co.pds.User.Service.Interfaces.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -14,23 +14,23 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Service
-public class UserService implements IUserService {
+public class UsuarioService implements IUsuarioService {
 
     @Autowired
-    IUserRepository iUserRepository;
+    IUsuarioRepository iUsuarioRepository;
     ModelMapper mapper = new ModelMapper();
 
+    //Metodo para saber si el usuario es mayor de edad
     @Override
-    public int[] ege(Date userDateBirth){
-
+    public int[] mayorDeEdad(Date fechaNacimiento) {
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         String date = format.format(System.currentTimeMillis());
-        String dateUser = format.format(userDateBirth);
+        String dateUser = format.format(fechaNacimiento);
 
         // --- fecha de sistema --//
         String[] sys = date.split("-");
-        Integer dateSyst = Integer.parseInt(sys[0]);
-        Integer monthSyst = Integer.parseInt(sys[1]);
+        Integer fechaSyst = Integer.parseInt(sys[0]);
+        Integer mesSyst = Integer.parseInt(sys[1]);
         Integer anoSyst = Integer.parseInt(sys[2]);
 
         //-- fecha nacimiento usuario--//
@@ -44,7 +44,7 @@ public class UserService implements IUserService {
         int month = 0;
         int anios = 0;
         int monthes = 0;
-        month = monthSyst - 1;
+        month = mesSyst - 1;
 
 
         if (month == 2) {
@@ -68,31 +68,31 @@ public class UserService implements IUserService {
                 b = 30;
             }
         }
-        if ((anoSyst > anoUser) || (anoSyst == anoUser && monthSyst > monthUser)
-                || (anoSyst == anoUser && monthSyst ==monthUser && dateSyst > dateBirtthUser)) {
+        if ((anoSyst > anoUser) || (anoSyst == anoUser && mesSyst > monthUser)
+                || (anoSyst == anoUser && mesSyst ==monthUser && fechaSyst > dateBirtthUser)) {
             System.out.println("La fecha de inicio debe ser anterior a la fecha Actual");
         } else {
-            if (monthSyst <= monthUser) {
+            if (mesSyst <= monthUser) {
                 anios = anoUser - anoSyst;
-                if (dateSyst <= dateBirtthUser) {
-                    monthes = monthUser - monthSyst;
-                    dias = b - (dateSyst - dateBirtthUser);
+                if (fechaSyst <= dateBirtthUser) {
+                    monthes = monthUser - mesSyst;
+                    dias = b - (fechaSyst - dateBirtthUser);
                 } else {
-                    if (monthUser == monthSyst) {
+                    if (monthUser == mesSyst) {
                         anios = anios - 1;
                     }
-                    monthes = (monthUser - monthSyst - 1 + 12) % 12;
-                    dias = b - (dateSyst - dateBirtthUser);
+                    monthes = (monthUser - mesSyst - 1 + 12) % 12;
+                    dias = b - (fechaSyst - dateBirtthUser);
                 }
             } else {
                 anios = anoUser - anoSyst - 1;
                 System.out.println(anios);
-                if (dateSyst > dateBirtthUser) {
-                    monthes = monthUser - monthSyst - 1 + 12;
-                    dias = b - (dateSyst - dateBirtthUser);
+                if (fechaSyst > dateBirtthUser) {
+                    monthes = monthUser - mesSyst - 1 + 12;
+                    dias = b - (fechaSyst - dateBirtthUser);
                 } else {
-                    monthes = monthUser - monthSyst + 12;
-                    dias = dateBirtthUser - dateSyst;
+                    monthes = monthUser - mesSyst + 12;
+                    dias = dateBirtthUser - fechaSyst;
                 }
             }
         }
@@ -104,47 +104,54 @@ public class UserService implements IUserService {
         return ege;
     }
 
+//    @Override
+//    public Boolean usuarioExistente(String numeroIdentificacion) {
+//        return iUsuarioRepository.existsUsuarioByNumeroIdenficacion(numeroIdentificacion);
+//
+//    }
+
     @Override
-    public Boolean existingUser(Integer idUser) {
-        return iUserRepository.existsById(idUser);
+    public Boolean usuarioExistente(Long numeroIdentificacion) {
+//        return iUsuarioRepository.existsUsuarioByNumeroIdenficacion(numeroIdentificacion);
+        return iUsuarioRepository.existsById(numeroIdentificacion);
+
     }
 
     @Override
-    public MessageResponse newUser(UserRequest userRequest) {
-
-        User user = mapper.map(userRequest,User.class);
-        MessageResponse responseMessage = null;
+    public MessageResponse crearUsuario(UsuarioRequest usuarioRequest) {
+        Usuario usuario = mapper.map(usuarioRequest, Usuario.class);
+        MessageResponse responseMessage = MessageResponse.builder().build();
 
         try {
-            if(!existingUser(user.getIdUser())){
-                int[] egeUser = (ege(user.getDateBirth()));
+            if(!usuarioExistente(usuario.getNumeroIdenficacion())){
+                int[] egeUser = (mayorDeEdad(usuario.getFechaNacimiento()));
                 if(egeUser[0] == 29 && egeUser[1] == 11 && egeUser[2] == -1) {
                     return MessageResponse.builder()
-                            .message("The date of birth must be before the Current date")
+                            .message("La fecha de nacimiento debe ser anterior a la fecha actual")
                             .status(HttpStatus.BAD_REQUEST)
                             .build();
 
                 }else if( egeUser[2]<18 ){
                     return MessageResponse.builder()
-                            .message("The user is under 18 years old cannot register")
+                            .message("El usuario es menor de 18 años no puede registrarse")
                             .status(HttpStatus.BAD_REQUEST)
                             .build();
                 }else {
                     return MessageResponse.builder()
-                            .message("User already exists")
+                            .message("El usuario ya existe")
                             .status(HttpStatus.BAD_REQUEST)
                             .build();
                 }
             }else {
-                iUserRepository.save(user);
+                iUsuarioRepository.save(usuario);
                 responseMessage = MessageResponse.builder()
-                        .message("Registration successful")
+                        .message("Registro exitoso")
                         .status(HttpStatus.OK)
                         .build();
                 return responseMessage;
             }
         }catch(Exception ex){
-            System.out.println("Error saving");
+            System.out.println("Error creando el usuario");
         }
         return responseMessage;
     }
