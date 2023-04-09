@@ -8,7 +8,6 @@ import java.util.Date;
 public interface IUsuarioService {
 
     int[] mayorDeEdad(Date fechaNacimiento);
-    Boolean usuarioExistente(Long numeroIdentificacion);
     MessageResponse crearUsuario(UsuarioRequest usuario);
 
 }

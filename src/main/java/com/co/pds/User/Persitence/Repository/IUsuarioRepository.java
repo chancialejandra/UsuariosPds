@@ -1,11 +1,10 @@
 package com.co.pds.User.Persitence.Repository;
 
 import com.co.pds.User.Persitence.Entity.Usuario;
-import lombok.Data;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-
+@Repository
 public interface IUsuarioRepository extends JpaRepository<Usuario,Long> {
-
-//    boolean existsUsuarioByNumeroIdenficacion(String identificacion);
+//    boolean findsuarioByNumeroIdenficacion(String identificacion);
 }

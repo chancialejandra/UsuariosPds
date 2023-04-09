@@ -5,6 +5,7 @@ import com.co.pds.User.Dto.Response.MessageResponse;
 import com.co.pds.User.Persitence.Entity.Usuario;
 import com.co.pds.User.Persitence.Repository.IUsuarioRepository;
 import com.co.pds.User.Service.Interfaces.IUsuarioService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -14,10 +15,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Service
+@RequiredArgsConstructor
 public class UsuarioService implements IUsuarioService {
 
-    @Autowired
-    IUsuarioRepository iUsuarioRepository;
+    private final IUsuarioRepository iUsuarioRepository;
     ModelMapper mapper = new ModelMapper();
 
     //Metodo para saber si el usuario es mayor de edad
@@ -104,18 +105,12 @@ public class UsuarioService implements IUsuarioService {
         return ege;
     }
 
-//    @Override
-//    public Boolean usuarioExistente(String numeroIdentificacion) {
-//        return iUsuarioRepository.existsUsuarioByNumeroIdenficacion(numeroIdentificacion);
-//
-//    }
-
-    @Override
-    public Boolean usuarioExistente(Long numeroIdentificacion) {
-//        return iUsuarioRepository.existsUsuarioByNumeroIdenficacion(numeroIdentificacion);
-        return iUsuarioRepository.existsById(numeroIdentificacion);
-
+    public Boolean findsuarioByNumeroIdenficacion(String identificacion){
+//        return iUsuarioRepository.findsuarioByNumeroIdenficacion(identificacion);
+        return false;
     }
+
+
 
     @Override
     public MessageResponse crearUsuario(UsuarioRequest usuarioRequest) {
@@ -123,7 +118,7 @@ public class UsuarioService implements IUsuarioService {
         MessageResponse responseMessage = MessageResponse.builder().build();
 
         try {
-            if(!usuarioExistente(usuario.getNumeroIdenficacion())){
+            if(!findsuarioByNumeroIdenficacion(usuario.getNumeroIdenficacion())){
                 int[] egeUser = (mayorDeEdad(usuario.getFechaNacimiento()));
                 if(egeUser[0] == 29 && egeUser[1] == 11 && egeUser[2] == -1) {
                     return MessageResponse.builder()

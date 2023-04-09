@@ -3,7 +3,6 @@ package com.co.pds.User.Controller;
 
 import com.co.pds.User.Dto.Request.PruebaRequest;
 import com.co.pds.User.Dto.Request.UsuarioRequest;
-import com.co.pds.User.Dto.Response.MessageResponse;
 import com.co.pds.User.Service.Interfaces.IUsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,15 +14,17 @@ import javax.validation.Valid;
 @Validated
 @RestController
 @RequestMapping("/usuario")
-@RequiredArgsConstructor
 public class UserController {
 
     private final IUsuarioService iUsuarioService;
 
+    public UserController(IUsuarioService iUsuarioService) {
+        this.iUsuarioService = iUsuarioService;
+    }
+
     @PostMapping()
     public ResponseEntity crearUsuario(@Valid @RequestBody UsuarioRequest usuario){
         var response = iUsuarioService.crearUsuario(usuario);
-//         return  iUsuarioService.usuarioExistente(usuario.getNumeroIdentificacion());
         return ResponseEntity.status(response.status).body(response);
     }
 
