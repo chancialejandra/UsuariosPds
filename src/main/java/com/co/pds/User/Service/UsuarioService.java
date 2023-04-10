@@ -13,6 +13,8 @@ import org.modelmapper.ModelMapper;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -105,9 +107,9 @@ public class UsuarioService implements IUsuarioService {
         return ege;
     }
 
-    public Boolean findsuarioByNumeroIdenficacion(String identificacion){
-//        return iUsuarioRepository.findsuarioByNumeroIdenficacion(identificacion);
-        return false;
+    public Boolean findByNumeroIdenficacion(String identificacion){
+        var response=  iUsuarioRepository.findByNumeroIdenficacion(identificacion);
+    return true;
     }
 
 
@@ -118,7 +120,7 @@ public class UsuarioService implements IUsuarioService {
         MessageResponse responseMessage = MessageResponse.builder().build();
 
         try {
-            if(!findsuarioByNumeroIdenficacion(usuario.getNumeroIdenficacion())){
+            if(findByNumeroIdenficacion(usuario.getNumeroIdenficacion())){
                 int[] egeUser = (mayorDeEdad(usuario.getFechaNacimiento()));
                 if(egeUser[0] == 29 && egeUser[1] == 11 && egeUser[2] == -1) {
                     return MessageResponse.builder()
@@ -135,9 +137,9 @@ public class UsuarioService implements IUsuarioService {
                     return MessageResponse.builder()
                             .message("El usuario ya existe")
                             .status(HttpStatus.BAD_REQUEST)
-                            .build();
+                               .build();
                 }
-            }else {
+                }else {
                 iUsuarioRepository.save(usuario);
                 responseMessage = MessageResponse.builder()
                         .message("Registro exitoso")
