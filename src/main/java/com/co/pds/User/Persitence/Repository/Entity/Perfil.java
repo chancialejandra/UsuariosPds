@@ -1,8 +1,8 @@
-package com.co.pds.User.Persitence.Entity;
+package com.co.pds.User.Persitence.Repository.Entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 

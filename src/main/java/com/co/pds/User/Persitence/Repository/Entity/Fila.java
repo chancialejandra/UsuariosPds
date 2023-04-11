@@ -1,13 +1,14 @@
-package com.co.pds.User.Persitence.Entity;
+package com.co.pds.User.Persitence.Repository.Entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Getter
 @Setter
+
 @Table(name = "Fila")
 public class Fila {
 

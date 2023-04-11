@@ -1,8 +1,8 @@
-package com.co.pds.User.Persitence.Entity;
+package com.co.pds.User.Persitence.Repository.Entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -11,7 +11,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-@Table (name = "Usuario")
+@Table(name = "Usuario")
 public class Usuario {
 
     @Id
@@ -21,7 +21,7 @@ public class Usuario {
 
     private String nombre;
 
-    private String NumeroIdenficacion;
+    private String numeroIdentificacion;
 
     @Column (name = "fecha_nacimiento")
     private Date fechaNacimiento;

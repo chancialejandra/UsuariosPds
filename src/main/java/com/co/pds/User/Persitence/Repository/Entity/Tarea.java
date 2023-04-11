@@ -1,8 +1,8 @@
-package com.co.pds.User.Persitence.Entity;
+package com.co.pds.User.Persitence.Repository.Entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,7 +13,7 @@ import java.util.Objects;
 public class Tarea {
 
     @Id
-    @Column (name = "id_tarea")
+    @Column(name = "id_tarea")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int idTarea;
     @Column(name = "nombre_tarea")

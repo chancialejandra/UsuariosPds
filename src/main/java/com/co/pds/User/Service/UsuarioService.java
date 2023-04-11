@@ -1,25 +1,21 @@
 package com.co.pds.User.Service;
 
-import com.co.pds.User.Dto.Request.UsuarioRequest;
-import com.co.pds.User.Dto.Response.MessageResponse;
-import com.co.pds.User.Persitence.Entity.Usuario;
+import com.co.pds.User.Persitence.Repository.Entity.Usuario;
 import com.co.pds.User.Persitence.Repository.IUsuarioRepository;
-import com.co.pds.User.Service.Interfaces.IUsuarioService;
+import com.co.pds.User.dto.Request.UsuarioRequest;
+import com.co.pds.User.dto.Response.MessageResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.modelmapper.ModelMapper;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UsuarioService implements IUsuarioService {
-
+public class UsuarioService implements IUsuarioService{
     private final IUsuarioRepository iUsuarioRepository;
     ModelMapper mapper = new ModelMapper();
 
@@ -107,20 +103,13 @@ public class UsuarioService implements IUsuarioService {
         return ege;
     }
 
-    public Boolean findByNumeroIdenficacion(String identificacion){
-        var response=  iUsuarioRepository.findByNumeroIdenficacion(identificacion);
-    return true;
-    }
-
-
-
     @Override
     public MessageResponse crearUsuario(UsuarioRequest usuarioRequest) {
         Usuario usuario = mapper.map(usuarioRequest, Usuario.class);
         MessageResponse responseMessage = MessageResponse.builder().build();
 
         try {
-            if(findByNumeroIdenficacion(usuario.getNumeroIdenficacion())){
+            if(findByNumeroIdenficacion(usuario.getNumeroIdentificacion())){
                 int[] egeUser = (mayorDeEdad(usuario.getFechaNacimiento()));
                 if(egeUser[0] == 29 && egeUser[1] == 11 && egeUser[2] == -1) {
                     return MessageResponse.builder()
@@ -137,9 +126,9 @@ public class UsuarioService implements IUsuarioService {
                     return MessageResponse.builder()
                             .message("El usuario ya existe")
                             .status(HttpStatus.BAD_REQUEST)
-                               .build();
+                            .build();
                 }
-                }else {
+            }else {
                 iUsuarioRepository.save(usuario);
                 responseMessage = MessageResponse.builder()
                         .message("Registro exitoso")
@@ -152,6 +141,9 @@ public class UsuarioService implements IUsuarioService {
         }
         return responseMessage;
     }
+
+    @Override
+    public Boolean findByNumeroIdenficacion(String numeroIdentificacion) {
+        return iUsuarioRepository.findByNumeroIdentificacion(numeroIdentificacion);
+    }
 }
-
-
