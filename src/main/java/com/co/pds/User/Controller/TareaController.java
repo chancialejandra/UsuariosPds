@@ -20,7 +20,8 @@ public class TareaController {
 
     @PostMapping()
     public ResponseEntity crearTarea(@Valid @RequestBody TareaRequest tarea){
-        return  null;
+        var response = iTareaService.crearTarea(tarea);
+        return ResponseEntity.status(response.status).body(response);
     }
 
 

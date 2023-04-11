@@ -15,7 +15,7 @@ public class Tarea {
     @Id
     @Column (name = "id_tarea")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int idTarea;
+    private Long idTarea;
     @Column(name = "nombre_tarea")
     private String nombreTarea;
 
