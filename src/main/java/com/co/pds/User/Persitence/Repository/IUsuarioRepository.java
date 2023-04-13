@@ -8,8 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface IUsuarioRepository extends JpaRepository<Usuario,Long> {
-
-    Boolean findByNumeroIdentificacion(String numeroIdentificacion);
+    Optional<Usuario> findByNumeroIdentificacion(String numeroIdentificacion);
 
 
 }

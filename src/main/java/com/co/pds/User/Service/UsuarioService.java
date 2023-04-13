@@ -109,7 +109,7 @@ public class UsuarioService implements IUsuarioService{
         MessageResponse responseMessage = MessageResponse.builder().build();
 
         try {
-            if(findByNumeroIdenficacion(usuario.getNumeroIdentificacion())){
+            if(!findByNumeroIdenficacion(usuario.getNumeroIdentificacion())){
                 int[] egeUser = (mayorDeEdad(usuario.getFechaNacimiento()));
                 if(egeUser[0] == 29 && egeUser[1] == 11 && egeUser[2] == -1) {
                     return MessageResponse.builder()
@@ -144,6 +144,9 @@ public class UsuarioService implements IUsuarioService{
 
     @Override
     public Boolean findByNumeroIdenficacion(String numeroIdentificacion) {
-        return iUsuarioRepository.findByNumeroIdentificacion(numeroIdentificacion);
+        if (iUsuarioRepository.findByNumeroIdentificacion(numeroIdentificacion).isPresent()) {
+            return true;
+        }
+        return false;
     }
 }
