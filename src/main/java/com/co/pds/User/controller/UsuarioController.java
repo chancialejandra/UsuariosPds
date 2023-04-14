@@ -1,10 +1,9 @@
 package com.co.pds.User.controller;
 
-import com.co.pds.User.dto.Request.UsuarioRequest;
-import com.co.pds.User.Service.IUsuarioService;
+import com.co.pds.User.dto.request.UsuarioRequest;
+import com.co.pds.User.service.interfaces.IUsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

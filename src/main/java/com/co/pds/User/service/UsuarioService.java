@@ -1,9 +1,10 @@
-package com.co.pds.User.Service;
+package com.co.pds.User.service;
 
-import com.co.pds.User.Persitence.Repository.Entity.Usuario;
-import com.co.pds.User.Persitence.Repository.IUsuarioRepository;
-import com.co.pds.User.dto.Request.UsuarioRequest;
-import com.co.pds.User.dto.Response.MessageResponse;
+import com.co.pds.User.Persitence.entity.Usuario;
+import com.co.pds.User.Persitence.repository.IUsuarioRepository;
+import com.co.pds.User.service.interfaces.IUsuarioService;
+import com.co.pds.User.dto.request.UsuarioRequest;
+import com.co.pds.User.dto.response.MessageResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -11,11 +12,10 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UsuarioService implements IUsuarioService{
+public class UsuarioService implements IUsuarioService {
     private final IUsuarioRepository iUsuarioRepository;
     ModelMapper mapper = new ModelMapper();
 

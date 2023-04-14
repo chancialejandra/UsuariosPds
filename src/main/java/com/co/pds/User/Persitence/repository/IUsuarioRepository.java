@@ -1,6 +1,6 @@
-package com.co.pds.User.Persitence.Repository;
+package com.co.pds.User.Persitence.repository;
 
-import com.co.pds.User.Persitence.Repository.Entity.Usuario;
+import com.co.pds.User.Persitence.entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

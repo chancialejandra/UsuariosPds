@@ -1,4 +1,4 @@
-package com.co.pds.User.Persitence.Repository.Entity;
+package com.co.pds.User.Persitence.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

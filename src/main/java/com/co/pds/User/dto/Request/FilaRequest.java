@@ -1,4 +1,4 @@
-package com.co.pds.User.dto.Request;
+package com.co.pds.User.dto.request;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -12,32 +12,13 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class UsuarioRequest {
 
-    private String nombre;
+public class FilaRequest {
 
-    private String numeroIdentificacion;
+    private int duracion;
 
-    private Date fechaNacimiento;
+    //private Tarea tarea;
 
-    private boolean condicion;
+    //private Usuario usuarios;
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

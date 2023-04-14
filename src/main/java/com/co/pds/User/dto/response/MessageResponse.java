@@ -1,4 +1,4 @@
-package com.co.pds.User.dto.Response;
+package com.co.pds.User.dto.response;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

@@ -1,7 +1,7 @@
 server:
   servlet:
     context-path: /usuariopds
-  port: 8080
+  port: 9080
 spring:
   application:
     name: user-pds

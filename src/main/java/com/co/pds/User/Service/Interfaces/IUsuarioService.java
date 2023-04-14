@@ -1,11 +1,9 @@
-package com.co.pds.User.Service;
+package com.co.pds.User.service.interfaces;
 
-import com.co.pds.User.Persitence.Repository.Entity.Usuario;
-import com.co.pds.User.dto.Request.UsuarioRequest;
-import com.co.pds.User.dto.Response.MessageResponse;
+import com.co.pds.User.dto.request.UsuarioRequest;
+import com.co.pds.User.dto.response.MessageResponse;
 
 import java.util.Date;
-import java.util.Optional;
 
 public interface IUsuarioService {
 
