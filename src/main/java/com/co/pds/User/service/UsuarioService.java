@@ -1,7 +1,7 @@
 package com.co.pds.User.service;
 
-import com.co.pds.User.Persitence.entity.Usuario;
-import com.co.pds.User.Persitence.repository.IUsuarioRepository;
+import com.co.pds.User.persitence.entity.Usuario;
+import com.co.pds.User.persitence.repository.IUsuarioRepository;
 import com.co.pds.User.service.interfaces.IUsuarioService;
 import com.co.pds.User.dto.request.UsuarioRequest;
 import com.co.pds.User.dto.response.MessageResponse;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -149,4 +150,30 @@ public class UsuarioService implements IUsuarioService {
         }
         return false;
     }
+
+    @Override
+    public MessageResponse eliminarUsuario(String identificacion) {
+
+        MessageResponse responseMessage = MessageResponse.builder().build();
+        Optional<Usuario> optionalUsuario = iUsuarioRepository.findByNumeroIdentificacion(identificacion);
+
+        if (optionalUsuario.isPresent()) {
+            iUsuarioRepository.deleteById(optionalUsuario.get().getIdUsuario());
+            responseMessage = MessageResponse.builder()
+                    .message("Usuario elimidado")
+                    .status(HttpStatus.OK)
+                    .build();
+        } else {
+            responseMessage = MessageResponse.builder()
+                    .message("No se puede eliminar el usuario, no existe usuario con" +
+                            " un Numero de indentifiacación: " + identificacion)
+                    .status(HttpStatus.BAD_REQUEST)
+                    .build();
+        }
+        return responseMessage;
+
+
+    }
+
+
 }

@@ -23,5 +23,10 @@ public class UsuarioController {
         return ResponseEntity.status(response.status).body(response);
     }
 
+    @DeleteMapping()
+    public ResponseEntity eliminarUsuario(){
+        return null;
+    }
+
 
 }

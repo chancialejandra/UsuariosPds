@@ -12,4 +12,5 @@ public interface IUsuarioService {
     
     Boolean findByNumeroIdenficacion(String numeroIdentificacion);
 
+    MessageResponse eliminarUsuario(String numeroIdentificacion);
 }

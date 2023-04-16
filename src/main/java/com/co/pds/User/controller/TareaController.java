@@ -1,6 +1,6 @@
 package com.co.pds.User.controller;
 
-import com.co.pds.User.Persitence.entity.Tarea;
+import com.co.pds.User.persitence.entity.Tarea;
 import com.co.pds.User.dto.response.MessageResponse;
 import com.co.pds.User.service.interfaces.ITareaService;
 import com.co.pds.User.dto.request.TareaRequest;
@@ -21,16 +21,32 @@ public class TareaController {
 
     private final ITareaService iTareaService;
 
-    @PostMapping()
-    public ResponseEntity crearTarea(@Valid @RequestBody TareaRequest tarea){
-        var response = iTareaService.crearTarea(tarea);
+    @PostMapping("/Crear")
+    public ResponseEntity crearTarea(@Valid @RequestBody TareaRequest tareaRequest){
+        var response = iTareaService.crearTarea(tareaRequest);
         return ResponseEntity.status(response.status).body(response);
     }
 
-    @GetMapping
+    @GetMapping("/Listar")
     public List<Tarea> listarTarea() {
         List<Tarea> lista = iTareaService.listarTarea();
         return lista;
+    }
+
+    @GetMapping("/Buscar/{idTarea}")
+    public Tarea buscarTarea(@PathVariable Long idTarea){
+        return iTareaService.buscarTarea(idTarea);
+    }
+
+    @DeleteMapping("/Eliminar")
+    public ResponseEntity eliminarTarea(Long id){
+        var response = iTareaService.eliminarTarea(id);
+        return ResponseEntity.status(response.status).body(response);
+    }
+
+    @PutMapping("/Editar/{idTarea}")
+    public MessageResponse editarTarea(@RequestBody TareaRequest tareaRequest, @PathVariable Long idTarea){
+        return iTareaService.editarTarea(tareaRequest, idTarea);
     }
 
     }
