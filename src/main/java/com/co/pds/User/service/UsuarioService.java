@@ -17,12 +17,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UsuarioService implements IUsuarioService {
     private final IUsuarioRepository iUsuarioRepository;
+    SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
     ModelMapper mapper = new ModelMapper();
 
     //Metodo para saber si el usuario es mayor de edad
     @Override
     public int[] mayorDeEdad(Date fechaNacimiento) {
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+
         String date = format.format(System.currentTimeMillis());
         String dateUser = format.format(fechaNacimiento);
 
