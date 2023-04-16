@@ -1,5 +1,6 @@
 package com.co.pds.User.controller;
 
+import com.co.pds.User.dto.response.TareaResponse;
 import com.co.pds.User.persitence.entity.Tarea;
 import com.co.pds.User.dto.response.MessageResponse;
 import com.co.pds.User.service.interfaces.ITareaService;
@@ -28,13 +29,13 @@ public class TareaController {
     }
 
     @GetMapping("/Listar")
-    public List<Tarea> listarTarea() {
-        List<Tarea> lista = iTareaService.listarTarea();
+    public List<TareaResponse> listarTarea() {
+        List<TareaResponse> lista = iTareaService.listarTarea();
         return lista;
     }
 
     @GetMapping("/Buscar/{idTarea}")
-    public Tarea buscarTarea(@PathVariable Long idTarea){
+    public TareaResponse buscarTarea(@PathVariable Long idTarea){
         return iTareaService.buscarTarea(idTarea);
     }
 

@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface ITareaRepository extends JpaRepository<Tarea,Long> {
-   // Optional<Tarea> findByNombre(String nombre);
+    Optional<Tarea> findBynombreTarea(String nombreTarea);
 
 
 }
