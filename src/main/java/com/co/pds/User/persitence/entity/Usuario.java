@@ -3,6 +3,7 @@ package com.co.pds.User.persitence.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -28,12 +29,8 @@ public class Usuario {
 
     private boolean activo;
 
-    @ManyToOne(fetch=FetchType.EAGER,cascade = {CascadeType.PERSIST})
-    @JoinColumn(name = "idDependence")
     private Dependencia dependencia;
 
-    @ManyToOne(fetch=FetchType.EAGER,cascade = {CascadeType.PERSIST})
-    @JoinColumn(name = "idPerfil")
     private Perfil perfil;
 
     @OneToMany(mappedBy = "usuarios",fetch = FetchType.LAZY,cascade = {CascadeType.ALL})

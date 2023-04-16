@@ -15,8 +15,7 @@ public interface ITareaService {
 
     MessageResponse crearTarea(TareaRequest tareaRequest);
     MessageResponse eliminarTarea(Long id);
-    TareaResponse buscarTarea(Long id);
-    List<TareaResponse> listarTarea();
+
     MessageResponse editarTarea(TareaRequest tareaRequest, Long id);
     boolean nombreTareaExiste(String nombreTarea);
 }

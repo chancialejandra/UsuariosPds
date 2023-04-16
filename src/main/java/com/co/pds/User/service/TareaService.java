@@ -71,21 +71,6 @@ public class TareaService implements ITareaService {
     }
 
     @Override
-    public TareaResponse buscarTarea(Long id) {
-        Optional<TareaResponse> optTarea = mapper.map(iTareaRepository.findById(id),TareaResponse.class);
-        if (optTarea.isPresent()) {
-            return optTarea.get();
-        } else {
-            return null;
-        }
-    }
-    @Override
-    public List<TareaResponse> listarTarea() {
-        List<TareaResponse> listaTareas = mapper.map(iTareaRepository.findAll(), TareaResponse.class);
-        return listaTareas;
-    }
-
-    @Override
     public MessageResponse editarTarea(TareaRequest tareaRequest, Long id) {
 
         MessageResponse responseMessage = MessageResponse.builder().build();

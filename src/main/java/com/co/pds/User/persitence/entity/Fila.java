@@ -3,6 +3,7 @@ package com.co.pds.User.persitence.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+
 import java.util.Objects;
 
 @Entity
