@@ -20,10 +20,11 @@ public class UsuarioService implements IUsuarioService {
     private final IUsuarioRepository iUsuarioRepository;
     ModelMapper mapper = new ModelMapper();
 
+    SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+
     //Metodo para saber si el usuario es mayor de edad
     @Override
     public int[] mayorDeEdad(Date fechaNacimiento) {
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         String date = format.format(System.currentTimeMillis());
         String dateUser = format.format(fechaNacimiento);
 
@@ -112,7 +113,16 @@ public class UsuarioService implements IUsuarioService {
         try {
             if(!findByNumeroIdenficacion(usuario.getNumeroIdentificacion())){
                 int[] egeUser = (mayorDeEdad(usuario.getFechaNacimiento()));
-                if(egeUser[0] == 29 && egeUser[1] == 11 && egeUser[2] == -1) {
+
+
+                String date = format.format(System.currentTimeMillis());
+
+                // --- fecha de sistema --//
+                String[] sys = date.split("-");
+                Integer diaSyst = Integer.parseInt(sys[0]);
+                Integer mesSyst = Integer.parseInt(sys[1]);
+                Integer anoSyst = Integer.parseInt(sys[2]);
+                if(egeUser[0] == diaSyst && egeUser[1] == mesSyst && egeUser[2] == anoSyst) {
                     return MessageResponse.builder()
                             .message("La fecha de nacimiento debe ser anterior a la fecha actual")
                             .status(HttpStatus.BAD_REQUEST)
