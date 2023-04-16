@@ -5,7 +5,6 @@ import com.co.pds.User.persitence.entity.Tarea;
 import com.co.pds.User.dto.response.MessageResponse;
 import com.co.pds.User.service.interfaces.ITareaService;
 import com.co.pds.User.dto.request.TareaRequest;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -23,7 +22,7 @@ public class TareaController {
     private final ITareaService iTareaService;
 
     @PostMapping("/Crear")
-    public ResponseEntity crearTarea(@Valid @RequestBody TareaRequest tareaRequest){
+    public ResponseEntity crearTarea(@RequestBody TareaRequest tareaRequest){
         var response = iTareaService.crearTarea(tareaRequest);
         return ResponseEntity.status(response.status).body(response);
     }

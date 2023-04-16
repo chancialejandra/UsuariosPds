@@ -8,7 +8,6 @@ import com.co.pds.User.persitence.entity.Tarea;
 import com.co.pds.User.service.interfaces.ITareaService;
 import com.co.pds.User.dto.request.TareaRequest;
 import com.co.pds.User.dto.response.MessageResponse;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
