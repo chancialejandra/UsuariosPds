@@ -71,7 +71,7 @@ public class TareaService implements ITareaService {
 
     @Override
     public TareaResponse buscarTarea(Long id) {
-        Optional<TareaResponse> optTarea = mapper.map(iTareaRepository.findById(id),TareaResponse.class);
+        Optional<TareaResponse> optTarea = null;//mapper.map(iTareaRepository.findById(id),TareaResponse.class);
         if (optTarea.isPresent()) {
             return optTarea.get();
         } else {
@@ -80,7 +80,7 @@ public class TareaService implements ITareaService {
     }
     @Override
     public List<TareaResponse> listarTarea() {
-        List<TareaResponse> listaTareas = mapper.map(iTareaRepository.findAll(), TareaResponse.class);
+        List<TareaResponse> listaTareas = null;//mapper.map(iTareaRepository.findAll(), TareaResponse.class);
         return listaTareas;
     }
 
