@@ -21,7 +21,7 @@ public class UsuarioController {
 
     private final IUsuarioService iUsuarioService;
 
-    @PostMapping()
+    @PostMapping("/cear")
     public ResponseEntity crearUsuario(@RequestBody UsuarioRequest usuario){
        var response = iUsuarioService.crearUsuario(usuario);
         return ResponseEntity.status(response.status).body(response);
@@ -33,12 +33,12 @@ public class UsuarioController {
         return ResponseEntity.status(response.status).body(response);
     }
 
-    @GetMapping()
+    @GetMapping("/listar")
     public List<Usuario> findAll(){
         return iUsuarioService.findAll();
     }
 
-    @PutMapping()
+    @PutMapping("/editar")
     public ResponseEntity actualizarUsuario(@RequestBody UsuarioRequest usuario){
         var response = iUsuarioService.actualizarUsuario(usuario);
         return ResponseEntity.status(HttpStatus.OK).body(response);

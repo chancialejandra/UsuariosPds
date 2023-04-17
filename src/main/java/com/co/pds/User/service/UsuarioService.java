@@ -165,18 +165,20 @@ public class UsuarioService implements IUsuarioService {
             if(findByNumeroIdenficacion(user.getNumeroIdentificacion())){
                 var response = iUsuarioRepository.save(user);
                 return  responseUsuario.builder()
-                        .message("Tipo de bebida actualizado correctamente")
+                        .message("Usuario actualizado correctamente")
                         .nombre(response.getNombre())
                         .numeroIdentificacion(response.getNumeroIdentificacion())
                         .fechaNacimiento(response.getFechaNacimiento())
                         .build();
             }else {
                 return  responseUsuario.builder()
-                        .message("Tipo de bebida no existe")
+                        .message("Usuario no existe")
                         .build();
             }
         }catch(Exception ex){
-            System.out.println("Error guardando");
+            responseUsuario.builder()
+                    .message("Error actualizando el usuario")
+                    .build();
         }
         return responseUsuario;
     }
