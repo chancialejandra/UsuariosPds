@@ -8,12 +8,13 @@ import com.co.pds.User.persitence.entity.Tarea;
 import com.co.pds.User.service.interfaces.ITareaService;
 import com.co.pds.User.dto.request.TareaRequest;
 import com.co.pds.User.dto.response.MessageResponse;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
+
 
 @Service
 public class TareaService implements ITareaService {
@@ -69,20 +70,6 @@ public class TareaService implements ITareaService {
 
     }
 
-    @Override
-    public TareaResponse buscarTarea(Long id) {
-        Optional<TareaResponse> optTarea = mapper.map(iTareaRepository.findById(id),TareaResponse.class);
-        if (optTarea.isPresent()) {
-            return optTarea.get();
-        } else {
-            return null;
-        }
-    }
-    @Override
-    public List<TareaResponse> listarTarea() {
-        List<TareaResponse> listaTareas = mapper.map(iTareaRepository.findAll(), TareaResponse.class);
-        return listaTareas;
-    }
 
     @Override
     public MessageResponse editarTarea(TareaRequest tareaRequest, Long id) {

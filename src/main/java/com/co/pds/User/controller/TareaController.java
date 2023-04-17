@@ -27,16 +27,6 @@ public class TareaController {
         return ResponseEntity.status(response.status).body(response);
     }
 
-    @GetMapping("/Listar")
-    public List<TareaResponse> listarTarea() {
-        List<TareaResponse> lista = iTareaService.listarTarea();
-        return lista;
-    }
-
-    @GetMapping("/Buscar/{idTarea}")
-    public TareaResponse buscarTarea(@PathVariable Long idTarea){
-        return iTareaService.buscarTarea(idTarea);
-    }
 
     @DeleteMapping("/Eliminar")
     public ResponseEntity eliminarTarea(Long id){

@@ -1,8 +1,9 @@
 package com.co.pds.User.persitence.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;

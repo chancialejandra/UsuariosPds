@@ -1,31 +1,38 @@
 package com.co.pds.User.service;
 
+import com.co.pds.User.dto.response.UsuarioResponse;
 import com.co.pds.User.persitence.entity.Usuario;
 import com.co.pds.User.persitence.repository.IUsuarioRepository;
 import com.co.pds.User.service.interfaces.IUsuarioService;
 import com.co.pds.User.dto.request.UsuarioRequest;
 import com.co.pds.User.dto.response.MessageResponse;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UsuarioService implements IUsuarioService {
     private final IUsuarioRepository iUsuarioRepository;
-    SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
     ModelMapper mapper = new ModelMapper();
 
     //Metodo para saber si el usuario es mayor de edad
     @Override
     public int[] mayorDeEdad(Date fechaNacimiento) {
 
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         String date = format.format(System.currentTimeMillis());
-        String dateUser = format.format(fechaNacimiento);
+        String dateuser = format.format(fechaNacimiento);
 
         // --- fecha de sistema --//
         String[] sys = date.split("-");
@@ -33,76 +40,43 @@ public class UsuarioService implements IUsuarioService {
         Integer mesSyst = Integer.parseInt(sys[1]);
         Integer anoSyst = Integer.parseInt(sys[2]);
 
-        //-- fecha nacimiento usuario--//
-        String[] dateBirtth = dateUser.split("-");
-        Integer dateBirtthUser = Integer.parseInt(dateBirtth[0]);
-        Integer monthUser = Integer.parseInt(dateBirtth[1]);
-        Integer anoUser = Integer.parseInt(dateBirtth[2]);
+        // --- fecha de usuario--//
+        String[] fechaNacim = dateuser.split("-");
+        Integer dateBirtthUser = Integer.parseInt(fechaNacim[0]);
+        Integer monthUser = Integer.parseInt(fechaNacim[1]);
+        Integer anoUser = Integer.parseInt(fechaNacim[2]);
 
-        int b = 0;
-        int dias = 0;
-        int month = 0;
-        int anios = 0;
-        int monthes = 0;
-        month = mesSyst - 1;
+        int[] aniosUser = new int[3];
 
+        try {
+            if ((anoSyst<anoUser) || (anoSyst == anoUser && mesSyst > monthUser)
+                    || (anoSyst == anoUser && mesSyst == monthUser && fechaSyst > dateBirtthUser)) {
 
-        if (month == 2) {
-            if ((anoUser % 4 == 0) && ((anoUser % 100 != 0) || (anoUser % 400 == 0))) {
-                b = 29;
+                aniosUser[0] = 0;
+                aniosUser[1] = 0;
+                aniosUser[2] = 0;
+
+                return aniosUser;
             } else {
-                b = 28;
+                LocalDate fechaUser = LocalDate.of(anoUser,monthUser,dateBirtthUser);
+                LocalDate fechaaSyst = LocalDate.of(anoSyst,mesSyst,fechaSyst);
+
+                Period periodo = Period.between(fechaUser, fechaaSyst);
+                aniosUser[0] = periodo.getDays();
+                aniosUser[1] = periodo.getMonths();
+                aniosUser[2] = periodo.getYears();
+
+                return aniosUser;
             }
-        } else if (month <= 7) {
-            if (month == 0) {
-                b = 31;
-            } else if (month % 2 == 0) {
-                b = 30;
-            } else {
-                b = 31;
-            }
-        } else if (month > 7) {
-            if (month % 2 == 0) {
-                b = 31;
-            } else {
-                b = 30;
-            }
-        }
-        if ((anoSyst > anoUser) || (anoSyst == anoUser && mesSyst > monthUser)
-                || (anoSyst == anoUser && mesSyst ==monthUser && fechaSyst > dateBirtthUser)) {
-            System.out.println("La fecha de inicio debe ser anterior a la fecha Actual");
-        } else {
-            if (mesSyst <= monthUser) {
-                anios = anoUser - anoSyst;
-                if (fechaSyst <= dateBirtthUser) {
-                    monthes = monthUser - mesSyst;
-                    dias = b - (fechaSyst - dateBirtthUser);
-                } else {
-                    if (monthUser == mesSyst) {
-                        anios = anios - 1;
-                    }
-                    monthes = (monthUser - mesSyst - 1 + 12) % 12;
-                    dias = b - (fechaSyst - dateBirtthUser);
-                }
-            } else {
-                anios = anoUser - anoSyst - 1;
-                System.out.println(anios);
-                if (fechaSyst > dateBirtthUser) {
-                    monthes = monthUser - mesSyst - 1 + 12;
-                    dias = b - (fechaSyst - dateBirtthUser);
-                } else {
-                    monthes = monthUser - mesSyst + 12;
-                    dias = dateBirtthUser - fechaSyst;
-                }
+
+        }catch(Exception ex){
+            aniosUser[0] = 0;
+            aniosUser[1] = 0;
+            aniosUser[2] = 0;
+
+            return aniosUser;
             }
         }
-        int[] ege = new int[3];
-        ege[0]=dias;
-        ege[1]=monthes;
-        ege[2]=anios;
-
-        return ege;
-    }
 
     @Override
     public MessageResponse crearUsuario(UsuarioRequest usuarioRequest) {
@@ -111,34 +85,36 @@ public class UsuarioService implements IUsuarioService {
 
         try {
             if(!findByNumeroIdenficacion(usuario.getNumeroIdentificacion())){
-                int[] egeUser = (mayorDeEdad(usuario.getFechaNacimiento()));
-                if(egeUser[0] == 29 && egeUser[1] == 11 && egeUser[2] == -1) {
+                int[] aniosUser = (mayorDeEdad(usuario.getFechaNacimiento()));
+                if(aniosUser[0] == 0 && aniosUser[1] == 0 && aniosUser[2]==0) {
                     return MessageResponse.builder()
                             .message("La fecha de nacimiento debe ser anterior a la fecha actual")
                             .status(HttpStatus.BAD_REQUEST)
                             .build();
-
-                }else if( egeUser[2]<18 ){
+                }else if( aniosUser[2] < 18 ){
                     return MessageResponse.builder()
                             .message("El usuario es menor de 18 años no puede registrarse")
                             .status(HttpStatus.BAD_REQUEST)
                             .build();
-                }else {
-                    return MessageResponse.builder()
-                            .message("El usuario ya existe")
-                            .status(HttpStatus.BAD_REQUEST)
+                }else{
+                    iUsuarioRepository.save(usuario);
+                    responseMessage = MessageResponse.builder()
+                            .message("Registro exitoso")
+                            .status(HttpStatus.OK)
                             .build();
+                    return responseMessage;
                 }
-            }else {
-                iUsuarioRepository.save(usuario);
-                responseMessage = MessageResponse.builder()
-                        .message("Registro exitoso")
-                        .status(HttpStatus.OK)
+            }else{
+                return MessageResponse.builder()
+                        .message("El usuario ya existe")
+                        .status(HttpStatus.BAD_REQUEST)
                         .build();
-                return responseMessage;
             }
         }catch(Exception ex){
-            System.out.println("Error creando el usuario");
+            responseMessage = MessageResponse.builder()
+                    .message("Error creando el usuario")
+                    .status(HttpStatus.OK)
+                    .build();
         }
         return responseMessage;
     }
@@ -173,6 +149,36 @@ public class UsuarioService implements IUsuarioService {
         return responseMessage;
 
 
+    }
+
+    @Override
+    public List<Usuario> findAll() {
+        return iUsuarioRepository.findAll();
+    }
+
+    @Override
+    public UsuarioResponse actualizarUsuario(UsuarioRequest usuarioRequest) {
+        Usuario user = mapper.map(usuarioRequest,Usuario.class);
+        UsuarioResponse responseUsuario = null;
+
+        try {
+            if(findByNumeroIdenficacion(user.getNumeroIdentificacion())){
+                var response = iUsuarioRepository.save(user);
+                return  responseUsuario.builder()
+                        .message("Tipo de bebida actualizado correctamente")
+                        .nombre(response.getNombre())
+                        .numeroIdentificacion(response.getNumeroIdentificacion())
+                        .fechaNacimiento(response.getFechaNacimiento())
+                        .build();
+            }else {
+                return  responseUsuario.builder()
+                        .message("Tipo de bebida no existe")
+                        .build();
+            }
+        }catch(Exception ex){
+            System.out.println("Error guardando");
+        }
+        return responseUsuario;
     }
 
 
