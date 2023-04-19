@@ -1,5 +1,6 @@
 package com.co.pds.User.dto.request;
 
+import com.co.pds.User.persitence.entity.Tarea;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;
@@ -17,7 +18,7 @@ public class FilaRequest {
 
     private int duracion;
 
-    //private Tarea tarea;
+    private Tarea tarea;
 
     //private Usuario usuarios;
 
