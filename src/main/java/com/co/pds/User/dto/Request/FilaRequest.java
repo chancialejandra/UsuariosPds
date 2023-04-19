@@ -18,7 +18,9 @@ public class FilaRequest {
 
     private int duracion;
 
-    private Tarea tarea;
+    private Long idTarea;
+
+    private Long idUsuario;
 
     //private Usuario usuarios;
 
