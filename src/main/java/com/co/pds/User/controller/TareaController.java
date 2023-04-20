@@ -6,6 +6,7 @@ import com.co.pds.User.dto.response.MessageResponse;
 import com.co.pds.User.service.interfaces.ITareaService;
 import com.co.pds.User.dto.request.TareaRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +39,20 @@ public class TareaController {
     public MessageResponse editarTarea(@RequestBody TareaRequest tareaRequest, @PathVariable Long idTarea){
         return iTareaService.editarTarea(tareaRequest, idTarea);
     }
+    @GetMapping("/Listar")
+    public ResponseEntity listarTarea() {
 
+        List<Tarea> lista = iTareaService.listarTarea();
+        if (lista.isEmpty()){
+            return ResponseEntity.status(HttpStatus.OK).body("No hay datos");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(lista);
+    }
+
+    @GetMapping("/Buscar/{idTarea}")
+    public Tarea buscarTarea(@PathVariable Long idTarea){
+        return iTareaService.buscarTarea(idTarea);
+    }
     }
 
 

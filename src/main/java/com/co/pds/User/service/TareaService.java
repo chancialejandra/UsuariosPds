@@ -1,7 +1,6 @@
 package com.co.pds.User.service;
 
 
-import com.co.pds.User.dto.response.TareaResponse;
 import com.co.pds.User.persitence.repository.ITareaRepository;
 
 import com.co.pds.User.persitence.entity.Tarea;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -110,5 +110,16 @@ public class TareaService implements ITareaService {
             return false;
         }
     }
+
+    @Override
+    public Tarea buscarTarea(Long id) {
+        Optional<Tarea> optTarea = iTareaRepository.findById(id);
+            return optTarea.get();
+    }
+    @Override
+    public List<Tarea> listarTarea() {
+        return iTareaRepository.findAll();
+    }
+
 }
 

@@ -1,7 +1,9 @@
 package com.co.pds.User.service;
 
 import com.co.pds.User.dto.response.UsuarioResponse;
-import com.co.pds.User.persitence.entity.Tarea;
+
+import com.co.pds.User.persitence.entity.Fila;
+
 import com.co.pds.User.persitence.entity.Usuario;
 import com.co.pds.User.persitence.repository.IUsuarioRepository;
 import com.co.pds.User.service.interfaces.IUsuarioService;
@@ -25,6 +27,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UsuarioService implements IUsuarioService {
     private final IUsuarioRepository iUsuarioRepository;
+    private final FilaService filaService;
     ModelMapper mapper = new ModelMapper();
 
     //Metodo para saber si el usuario es mayor de edad
@@ -135,6 +138,17 @@ public class UsuarioService implements IUsuarioService {
         Optional<Usuario> optionalUsuario = iUsuarioRepository.findByNumeroIdentificacion(identificacion);
 
         if (optionalUsuario.isPresent()) {
+
+            //Eliminar filas asociadas
+            List<Fila> filas = filaService.listarFila();
+            for (Fila fila : filas){
+                if (fila.getUsuarios().getNumeroIdentificacion()==identificacion){
+                    filaService.eliminarFila(fila.getIdFila());
+                }
+
+            }
+
+
             iUsuarioRepository.deleteById(optionalUsuario.get().getIdUsuario());
             responseMessage = MessageResponse.builder()
                     .message("Usuario elimidado")
@@ -184,5 +198,9 @@ public class UsuarioService implements IUsuarioService {
         return responseUsuario;
     }
 
+    public Usuario buscarUsuario(Long id) {
+        Optional<Usuario> optionalUsuario = iUsuarioRepository.findById(id);
+        return optionalUsuario.get();
+    }
 
 }

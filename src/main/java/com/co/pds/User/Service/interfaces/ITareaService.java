@@ -13,7 +13,8 @@ public interface ITareaService {
 
     MessageResponse crearTarea(TareaRequest tareaRequest);
     MessageResponse eliminarTarea(Long id);
-
     MessageResponse editarTarea(TareaRequest tareaRequest, Long id);
     boolean nombreTareaExiste(String nombreTarea);
+    Tarea buscarTarea(Long id);
+    List<Tarea> listarTarea();
 }
