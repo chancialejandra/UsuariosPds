@@ -4,6 +4,7 @@ import com.co.pds.User.dto.request.UsuarioRequest;
 import com.co.pds.User.dto.response.UsuarioResponse;
 import com.co.pds.User.persitence.entity.Usuario;
 import com.co.pds.User.service.interfaces.IUsuarioService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +22,8 @@ public class UsuarioController {
 
     private final IUsuarioService iUsuarioService;
 
-    @PostMapping("/cear")
-    public ResponseEntity crearUsuario(@RequestBody UsuarioRequest usuario){
+    @PostMapping("/crear")
+    public ResponseEntity crearUsuario(@Valid @RequestBody UsuarioRequest usuario){
        var response = iUsuarioService.crearUsuario(usuario);
         return ResponseEntity.status(response.status).body(response);
     }
@@ -39,9 +40,9 @@ public class UsuarioController {
     }
 
     @PutMapping("/editar")
-    public ResponseEntity actualizarUsuario(@RequestBody UsuarioRequest usuario){
+    public UsuarioResponse actualizarUsuario(UsuarioRequest usuario){
         var response = iUsuarioService.actualizarUsuario(usuario);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return response;
 
     }
 

@@ -26,5 +26,5 @@ public interface IUsuarioService {
     public List<Usuario> findAll();
 
 
-    public UsuarioResponse actualizarUsuario(@RequestBody UsuarioRequest usuario);
+    public UsuarioResponse actualizarUsuario(UsuarioRequest usuario);
 }

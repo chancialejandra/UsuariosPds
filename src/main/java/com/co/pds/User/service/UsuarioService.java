@@ -1,6 +1,7 @@
 package com.co.pds.User.service;
 
 import com.co.pds.User.dto.response.UsuarioResponse;
+import com.co.pds.User.persitence.entity.Tarea;
 import com.co.pds.User.persitence.entity.Usuario;
 import com.co.pds.User.persitence.repository.IUsuarioRepository;
 import com.co.pds.User.service.interfaces.IUsuarioService;
