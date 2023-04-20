@@ -3,9 +3,7 @@ package com.co.pds.User.service;
 import com.co.pds.User.dto.request.FilaRequest;
 import com.co.pds.User.dto.response.MessageResponse;
 import com.co.pds.User.persitence.entity.Fila;
-import com.co.pds.User.persitence.entity.Tarea;
 import com.co.pds.User.persitence.repository.IFilaRepository;
-import com.co.pds.User.persitence.repository.ITareaRepository;
 import com.co.pds.User.persitence.repository.IUsuarioRepository;
 import com.co.pds.User.service.interfaces.IFilaService;
 import org.modelmapper.ModelMapper;
@@ -30,11 +28,9 @@ public class FilaService implements IFilaService {
 
         Fila fila = new Fila();
         fila.setDuracion(filaRequest.getDuracion());
-        fila.setTarea(tareaService.buscarTarea(filaRequest.getIdTarea()));
         fila.setUsuarios(usuarioService.buscarUsuario(filaRequest.getIdUsuario()));
+        fila.setTarea(tareaService.buscarTarea(filaRequest.getIdTarea()));
 
-
-        //Fila fila = mapper.map(filaRequest, Fila.class);
         MessageResponse responseMessage = MessageResponse.builder().build();
         iFilaRepository.save(fila);
         responseMessage = MessageResponse.builder()
@@ -48,7 +44,8 @@ public class FilaService implements IFilaService {
     @Override
     public MessageResponse eliminarFila(Long idFila) {
         MessageResponse responseMessage = MessageResponse.builder().build();
-        //Optional<Fila> optionalFila = iFilaRepository.findById(idFila);
+
+            //Eliminar filas asociadas
 
             iFilaRepository.deleteById(idFila);
             responseMessage = MessageResponse.builder()
@@ -76,6 +73,8 @@ public class FilaService implements IFilaService {
 
         Fila nuevaFila = optionalFila.get();
         nuevaFila.setDuracion(filaRequest.getDuracion());
+        nuevaFila.setUsuarios(usuarioService.buscarUsuario(filaRequest.getIdUsuario()));
+        nuevaFila.setTarea(tareaService.buscarTarea(filaRequest.getIdTarea()));
 
         iFilaRepository.save(nuevaFila);
 
@@ -86,4 +85,6 @@ public class FilaService implements IFilaService {
 
         return responseMessage;
     }
+
+
 }
