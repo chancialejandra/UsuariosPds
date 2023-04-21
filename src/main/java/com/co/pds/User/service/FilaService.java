@@ -2,8 +2,8 @@ package com.co.pds.User.service;
 
 import com.co.pds.User.dto.request.FilaRequest;
 import com.co.pds.User.dto.response.MessageResponse;
-import com.co.pds.User.persitence.entity.Fila;
 import com.co.pds.User.persitence.repository.IFilaRepository;
+import com.co.pds.User.persitence.entity.Fila;
 import com.co.pds.User.service.interfaces.IFilaService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

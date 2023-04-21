@@ -1,5 +1,6 @@
 package com.co.pds.User.controller;
 
+import com.co.pds.User.dto.request.UsuarioEditRequest;
 import com.co.pds.User.dto.request.UsuarioRequest;
 import com.co.pds.User.dto.response.UsuarioResponse;
 import com.co.pds.User.persitence.entity.Usuario;
@@ -39,11 +40,11 @@ public class UsuarioController {
         return iUsuarioService.findAll();
     }
 
-    @PutMapping("/editar")
-    public UsuarioResponse actualizarUsuario(UsuarioRequest usuario){
-        var response = iUsuarioService.actualizarUsuario(usuario);
-        return response;
-
+    @PutMapping("/editar/{numeroIdentificacion}")
+    public ResponseEntity actualizarUsuario(
+            @RequestBody UsuarioEditRequest usuario, @PathVariable String numeroIdentificacion) {
+        var response = iUsuarioService.actualizarUsuario(usuario, numeroIdentificacion);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 

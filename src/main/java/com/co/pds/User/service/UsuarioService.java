@@ -1,5 +1,6 @@
 package com.co.pds.User.service;
 
+import com.co.pds.User.dto.request.UsuarioEditRequest;
 import com.co.pds.User.dto.response.UsuarioResponse;
 
 import com.co.pds.User.persitence.entity.Fila;
@@ -12,13 +13,11 @@ import com.co.pds.User.dto.response.MessageResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -133,37 +132,31 @@ public class UsuarioService implements IUsuarioService {
 
     @Override
     public MessageResponse eliminarUsuario(String identificacion) {
-
         MessageResponse responseMessage = MessageResponse.builder().build();
         Optional<Usuario> optionalUsuario = iUsuarioRepository.findByNumeroIdentificacion(identificacion);
 
         if (optionalUsuario.isPresent()) {
-
             //Eliminar filas asociadas
             List<Fila> filas = filaService.listarFila();
-            for (Fila fila : filas){
-                if (fila.getUsuarios().getNumeroIdentificacion()==identificacion){
+            for (Fila fila : filas) {
+                if (fila.getUsuarios().getNumeroIdentificacion() == identificacion) {
                     filaService.eliminarFila(fila.getIdFila());
+                    iUsuarioRepository.deleteById(optionalUsuario.get().getIdUsuario());
+                    responseMessage = MessageResponse.builder()
+                            .message("Usuario elimidado")
+                            .status(HttpStatus.OK)
+                            .build();
+                } else {
+                    responseMessage = MessageResponse.builder()
+                            .message("No se puede eliminar el usuario, no existe usuario con" +
+                                    " un Numero de indentifiacación: " + identificacion)
+                            .status(HttpStatus.BAD_REQUEST)
+                            .build();
                 }
-
+                return responseMessage;
             }
-
-
-            iUsuarioRepository.deleteById(optionalUsuario.get().getIdUsuario());
-            responseMessage = MessageResponse.builder()
-                    .message("Usuario elimidado")
-                    .status(HttpStatus.OK)
-                    .build();
-        } else {
-            responseMessage = MessageResponse.builder()
-                    .message("No se puede eliminar el usuario, no existe usuario con" +
-                            " un Numero de indentifiacación: " + identificacion)
-                    .status(HttpStatus.BAD_REQUEST)
-                    .build();
         }
         return responseMessage;
-
-
     }
 
     @Override
@@ -172,35 +165,40 @@ public class UsuarioService implements IUsuarioService {
     }
 
     @Override
-    public UsuarioResponse actualizarUsuario(UsuarioRequest usuarioRequest) {
-        Usuario user = mapper.map(usuarioRequest,Usuario.class);
-        UsuarioResponse responseUsuario = null;
+    public UsuarioResponse actualizarUsuario(UsuarioEditRequest usuarioRequest, String numeroIdentificacion) {
 
-        try {
-            if(findByNumeroIdenficacion(user.getNumeroIdentificacion())){
-                var response = iUsuarioRepository.save(user);
-                return  responseUsuario.builder()
-                        .message("Usuario actualizado correctamente")
-                        .nombre(response.getNombre())
-                        .numeroIdentificacion(response.getNumeroIdentificacion())
-                        .fechaNacimiento(response.getFechaNacimiento())
-                        .build();
-            }else {
-                return  responseUsuario.builder()
-                        .message("Usuario no existe")
-                        .build();
+            UsuarioResponse responseUsuario = UsuarioResponse.builder().build();
+
+            var userValidation = iUsuarioRepository.findByNumeroIdentificacion(numeroIdentificacion);
+
+            try {
+                if (userValidation.isPresent()) {
+                    var oldUser = userValidation.get();
+
+                    oldUser.setNombre(usuarioRequest.getNombre());
+                    oldUser.setActivo(usuarioRequest.getCondicion());
+                    oldUser.setFechaNacimiento(usuarioRequest.getFechaNacimiento());
+                    var response = iUsuarioRepository.save(oldUser);
+                    return responseUsuario
+                            .builder()
+                            .message("Usuario actualizado correctamente")
+                            .nombre(response.getNombre())
+                            .numeroIdentificacion(response.getNumeroIdentificacion())
+                            .fechaNacimiento(response.getFechaNacimiento())
+                            .condicion(response.isActivo())
+                            .build();
+                } else {
+                    return responseUsuario.builder().message("Usuario no existe").build();
+                }
+            } catch (Exception ex) {
+                responseUsuario.builder().message("Error actualizando el usuario").build();
             }
-        }catch(Exception ex){
-            responseUsuario.builder()
-                    .message("Error actualizando el usuario")
-                    .build();
-        }
-        return responseUsuario;
+            return responseUsuario;
     }
 
+    @Override
     public Usuario buscarUsuario(Long id) {
         Optional<Usuario> optionalUsuario = iUsuarioRepository.findById(id);
         return optionalUsuario.get();
     }
-
 }
