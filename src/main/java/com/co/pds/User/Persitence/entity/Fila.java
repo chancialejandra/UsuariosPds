@@ -1,6 +1,8 @@
 package com.co.pds.User.persitence.entity;
 
 
+import com.co.pds.User.persitence.entity.Tarea;
+import com.co.pds.User.persitence.entity.Usuario;
 import jakarta.persistence.*;
 import lombok.*;
 
