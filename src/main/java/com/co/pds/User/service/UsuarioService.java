@@ -136,11 +136,14 @@ public class UsuarioService implements IUsuarioService {
         Optional<Usuario> optionalUsuario = iUsuarioRepository.findByNumeroIdentificacion(identificacion);
 
         if (optionalUsuario.isPresent()) {
+
             //Eliminar filas asociadas
             List<Fila> filas = filaService.listarFila();
             for (Fila fila : filas) {
                 if (fila.getUsuarios().getNumeroIdentificacion() == identificacion) {
                     filaService.eliminarFila(fila.getIdFila());
+                }
+            }
                     iUsuarioRepository.deleteById(optionalUsuario.get().getIdUsuario());
                     responseMessage = MessageResponse.builder()
                             .message("Usuario elimidado")
@@ -154,9 +157,7 @@ public class UsuarioService implements IUsuarioService {
                             .build();
                 }
                 return responseMessage;
-            }
-        }
-        return responseMessage;
+
     }
 
     @Override

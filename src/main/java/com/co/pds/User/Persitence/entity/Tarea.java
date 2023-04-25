@@ -1,6 +1,6 @@
 package com.co.pds.User.persitence.entity;
 
-
+import com.co.pds.User.persitence.entity.Fila;
 import jakarta.persistence.*;
 import lombok.*;
 
