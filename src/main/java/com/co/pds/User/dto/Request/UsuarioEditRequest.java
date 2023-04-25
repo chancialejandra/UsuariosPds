@@ -10,7 +10,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UsuarioEditRequest {
-    @NotBlank(message = "El nombre no  puede estar vacio")
+    @NotBlank(message = "El nombre del usuario no  puede estar vacio")
     private String nombre;
     @NotBlank(message = "El numero de idendtificaion no puede estar vacio")
     private String numeroIdentificacion;

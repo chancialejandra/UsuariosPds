@@ -160,7 +160,7 @@ public class UsuarioService implements IUsuarioService {
     }
 
     @Override
-    public List<Usuario> findAll() {
+    public List<Usuario> listarUsuarios() {
         return iUsuarioRepository.findAll();
     }
 

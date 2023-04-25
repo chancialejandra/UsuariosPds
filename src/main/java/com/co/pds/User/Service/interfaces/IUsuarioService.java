@@ -18,7 +18,7 @@ public interface IUsuarioService {
 
     MessageResponse eliminarUsuario(String numeroIdentificacion);
 
-    public List<Usuario> findAll();
+    public List<Usuario> listarUsuarios();
 
     public UsuarioResponse actualizarUsuario(UsuarioEditRequest usuarioRequest, String numeroIdentificacion);
 

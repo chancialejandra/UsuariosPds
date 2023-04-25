@@ -1,7 +1,9 @@
 package com.co.pds.User.persitence.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 import java.util.Date;
@@ -19,6 +21,7 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_usuario")
     private Long idUsuario;
+
 
     private String nombre;
 

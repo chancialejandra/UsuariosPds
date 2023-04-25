@@ -2,9 +2,11 @@ package com.co.pds.User.controller;
 
 import com.co.pds.User.dto.request.UsuarioEditRequest;
 import com.co.pds.User.dto.request.UsuarioRequest;
-import com.co.pds.User.dto.response.UsuarioResponse;
+import com.co.pds.User.persitence.entity.Tarea;
 import com.co.pds.User.persitence.entity.Usuario;
 import com.co.pds.User.service.interfaces.IUsuarioService;
+
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,19 +32,24 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{numeroIdentificacion}")
-    public ResponseEntity eliminarUsuario(@PathVariable String numeroIdentificacion){
+    public ResponseEntity eliminarUsuario(@Valid @PathVariable String numeroIdentificacion){
         var response = iUsuarioService.eliminarUsuario(numeroIdentificacion);
         return ResponseEntity.status(response.status).body(response);
     }
 
     @GetMapping("/listar")
-    public List<Usuario> findAll(){
-        return iUsuarioService.findAll();
+    public ResponseEntity listarTareas(){
+        List<Usuario> lista = iUsuarioService.listarUsuarios();
+        if (lista.isEmpty()){
+            return ResponseEntity.status(HttpStatus.OK).body("No hay usuarios registrados");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(lista);
     }
 
     @PutMapping("/editar/{numeroIdentificacion}")
     public ResponseEntity actualizarUsuario(
-            @RequestBody UsuarioEditRequest usuario, @PathVariable String numeroIdentificacion) {
+            @Valid @RequestBody UsuarioEditRequest usuario, @PathVariable String numeroIdentificacion) {
         var response = iUsuarioService.actualizarUsuario(usuario, numeroIdentificacion);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
