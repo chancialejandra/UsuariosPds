@@ -2,9 +2,15 @@ package com.co.pds.User.service;
 
 import com.co.pds.User.dto.request.FilaRequest;
 import com.co.pds.User.dto.response.MessageResponse;
+import com.co.pds.User.persitence.entity.Tarea;
+import com.co.pds.User.persitence.entity.Usuario;
 import com.co.pds.User.persitence.repository.IFilaRepository;
 import com.co.pds.User.persitence.entity.Fila;
+import com.co.pds.User.persitence.repository.IUsuarioRepository;
 import com.co.pds.User.service.interfaces.IFilaService;
+import com.co.pds.User.service.interfaces.ITareaService;
+import com.co.pds.User.service.interfaces.IUsuarioService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,30 +20,25 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class FilaService implements IFilaService {
 
-    @Autowired
-    IFilaRepository iFilaRepository;
-    TareaService tareaService;
-    UsuarioService usuarioService;
+
+    private final IFilaRepository iFilaRepository;
+
+    private final ITareaService iTareaService;
     ModelMapper mapper = new ModelMapper();
 
     @Override
     public MessageResponse crearFila(FilaRequest filaRequest) {
+        Fila fila = mapper.map(filaRequest, Fila.class);
 
-        Fila fila = new Fila();
-        fila.setDuracion(filaRequest.getDuracion());
-        fila.setUsuarios(usuarioService.buscarUsuario(filaRequest.getIdUsuario()));
-        fila.setTarea(tareaService.buscarTarea(filaRequest.getIdTarea()));
-
-        MessageResponse responseMessage = MessageResponse.builder().build();
         iFilaRepository.save(fila);
-        responseMessage = MessageResponse.builder()
-                .message("Fila guardada")
-                .status(HttpStatus.OK)
-                .build();
 
-        return responseMessage;
+        return MessageResponse.builder()
+                .message("Fila registrada con exito")
+                .status(HttpStatus.BAD_REQUEST)
+                .build();
     }
 
     @Override
@@ -72,8 +73,8 @@ public class FilaService implements IFilaService {
 
         Fila nuevaFila = optionalFila.get();
         nuevaFila.setDuracion(filaRequest.getDuracion());
-        nuevaFila.setUsuarios(usuarioService.buscarUsuario(filaRequest.getIdUsuario()));
-        nuevaFila.setTarea(tareaService.buscarTarea(filaRequest.getIdTarea()));
+      //  nuevaFila.setUsuarios(usuarioService.buscarUsuario(filaRequest.getIdUsuario()));
+       // nuevaFila.setTarea(tareaService.buscarTarea(filaRequest.getIdTarea()));
 
         iFilaRepository.save(nuevaFila);
 

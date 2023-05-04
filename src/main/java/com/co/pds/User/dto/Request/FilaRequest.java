@@ -19,9 +19,9 @@ public class FilaRequest {
     @Range(min=1,max=60)
     @NotNull(message = "La duración de la fila no puede estar vacia")
     private int duracion;
-    @NotNull(message = "El id de la tarea no puede estar vacio")
+  //  @NotNull(message = "El id de la tarea no puede estar vacio")
     private Long idTarea;
-    @NotNull(message = "El id del usuario no puede estar vacio")
+   // @NotNull(message = "El id del usuario no puede estar vacio")
     private Long idUsuario;
 
 

@@ -1,5 +1,7 @@
 package com.co.pds.User.dto.request;
 
+import com.co.pds.User.persitence.entity.Dependencia;
+import com.co.pds.User.persitence.entity.Perfil;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
@@ -12,11 +14,12 @@ import java.util.Date;
 public class UsuarioEditRequest {
     @NotBlank(message = "El nombre del usuario no  puede estar vacio")
     private String nombre;
-    @NotBlank(message = "El numero de idendtificaion no puede estar vacio")
-    private String numeroIdentificacion;
 
     private Date fechaNacimiento;
 
     private Boolean condicion;
+
+    private Dependencia dependencia;
+    private Perfil perfil;
 
 }

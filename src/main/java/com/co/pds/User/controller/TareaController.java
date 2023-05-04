@@ -5,6 +5,7 @@ import com.co.pds.User.persitence.entity.Tarea;
 import com.co.pds.User.dto.response.MessageResponse;
 import com.co.pds.User.service.interfaces.ITareaService;
 import com.co.pds.User.dto.request.TareaRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,14 +24,14 @@ public class TareaController {
     private final ITareaService iTareaService;
 
     @PostMapping("/crear")
-    public ResponseEntity crearTarea(@RequestBody TareaRequest tareaRequest){
+    public ResponseEntity crearTarea(@Valid @RequestBody TareaRequest tareaRequest){
         var response = iTareaService.crearTarea(tareaRequest);
         return ResponseEntity.status(response.status).body(response);
     }
 
 
     @DeleteMapping("/eliminar")
-    public ResponseEntity eliminarTarea(Long id){
+    public ResponseEntity eliminarTarea(@Valid Long id){
         var response = iTareaService.eliminarTarea(id);
         return ResponseEntity.status(response.status).body(response);
     }

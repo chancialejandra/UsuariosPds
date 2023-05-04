@@ -12,6 +12,7 @@ import com.co.pds.User.dto.request.UsuarioRequest;
 import com.co.pds.User.dto.response.MessageResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.internal.bytebuddy.dynamic.DynamicType;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -203,3 +204,4 @@ public class UsuarioService implements IUsuarioService {
         return optionalUsuario.get();
     }
 }
+
